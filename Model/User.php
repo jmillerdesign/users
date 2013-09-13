@@ -230,7 +230,7 @@ class User extends UsersAppModel {
  */
 	public function afterFind($results, $primary = false) {
 		foreach ($results as &$row) {
-			if (isset($row['UserDetail']) && (is_array($row))) {
+			if (isset($row['UserDetail']) && (is_array($row)) && (!empty($row[$this->alias]))) {
 				$row['UserDetail'] = $this->UserDetail->getSection($row[$this->alias]['id'], $this->alias);
 			}
 		}
