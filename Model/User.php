@@ -451,6 +451,14 @@ class User extends UsersAppModel {
 		if ($this->validates()) {
 			$this->data[$this->alias]['password'] = $this->hash($this->data[$this->alias]['new_password'], null, true);
 			$this->data[$this->alias]['password_token'] = null;
+			
+			// Don't attempt to save any values that are arrays
+			foreach ($this->data[$this->alias] as $key => $value) {
+				if (is_array($value)) {
+					unset($this->data[$this->alias][$key]);
+				}
+			}
+
 			$result = $this->save($this->data, array(
 				'validate' => false,
 				'callbacks' => false));
